@@ -3,10 +3,10 @@
 ## venkat
 
 - [ ] generate audio
+- [ ] image gen from api
 
 ## rithesh
 
-- [ ] image gen from api
 - [ ] generate subtitles
 - [ ] ffmpeg to merge image, audio and sub
 
@@ -15,7 +15,6 @@
 - [ ] make ui
     - [ ] text input field
     - [ ] loading screen
-
 
 ## later stages
 
