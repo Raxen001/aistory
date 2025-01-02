@@ -44,3 +44,5 @@ htmldocs/
 
 # End of https://www.toptal.com/developers/gitignore/api/nim,nextjs
 
+backend/node_modules
+backend/pnpm-lock.yaml
