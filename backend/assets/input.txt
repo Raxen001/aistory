@@ -1,0 +1,8 @@
+file 'img1.png'
+duration 2
+file 'img2.png'
+duration 2
+file 'img3.png'
+duration 2
+file 'img4.png'
+duration 2

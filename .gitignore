@@ -47,3 +47,4 @@ htmldocs/
 backend/node_modules
 backend/pnpm-lock.yaml
 backend/.env
+backend/output
