@@ -1,3 +1,11 @@
+import cors from 'cors';
+import express from 'express';
+import { generateStory } from './Controllers/storyGenerationController';
+
+const app = express();
+const port = 3000;
+app.use(cors());
+
 async function getData() {
   const url = "http://localhost:5000/";
   try {
@@ -12,17 +20,8 @@ async function getData() {
     console.error(error.message);
   }
 }
-
-getData();
-
-
-import express from 'express';
-import cors from 'cors';
-const app = express();
-const port = 3000;
-
-app.use(cors());
-
+app.use("/api/generate" ,generateStory);
+// getData();
 app.listen(port, () => {
     console.log(`[info] ffmpeg-api listening at http://localhost:${port}`)
 });
