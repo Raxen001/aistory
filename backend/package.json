@@ -1,0 +1,15 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "Backend code for the Story Teller application",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node src/server.js"
+  },
+  "author": "raxen001@tutamail.com",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^5.1.0"
+  }
+}
