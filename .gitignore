@@ -1,6 +1,3 @@
-# Created by https://www.toptal.com/developers/gitignore/api/nim,nextjs
-# Edit at https://www.toptal.com/developers/gitignore?templates=nim,nextjs
-
 ### NextJS ###
 # dependencies
 /node_modules
