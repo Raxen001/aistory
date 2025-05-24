@@ -1,4 +1,5 @@
 import express from "express";
+import { clerkClient, requireAuth, getAuth } from '@clerk/express'
 
 const router = express.Router();
 
@@ -12,8 +13,8 @@ const router = express.Router();
 // cleanup
 // timely -> clean up
 
-router.route("/").get((req, res) => {
-  res.send("hahahah");
+router.route("/").get( requireAuth(), async (req, res) => {
+  res.json("hahahah");
 });
 
 export default router;

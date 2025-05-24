@@ -1,13 +1,20 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-// import './index.css'
+import './index.css'
 import App from "./App.tsx";
-import { GoogleOAuthProvider } from "@react-oauth/google";
+
+import { ClerkProvider } from '@clerk/clerk-react'
+
+const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY
+
+if (!PUBLISHABLE_KEY) {
+  throw new Error('Missing Publishable Key')
+}
 
 createRoot(document.getElementById("root")!).render(
     <StrictMode>
-        <GoogleOAuthProvider clientId="339995647490-vhs9vjhc02cukolrcu1h368munbaha20.apps.googleusercontent.com">
+        <ClerkProvider publishableKey={PUBLISHABLE_KEY} afterSignOutUrl='/'>
             <App />
-        </GoogleOAuthProvider>
+    </ClerkProvider>
     </StrictMode>,
 );
