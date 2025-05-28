@@ -1,18 +1,10 @@
 import Ajv from "ajv";
+import userRequest from "../models/userRequest.js";
 
 function userRequestScehmaValidate(req, res, next) {
   const ajv = new Ajv();
 
-  const schema = {
-    type: "object",
-    properties: {
-      userId: { type: "string" },
-    },
-    required: ["userId"],
-    additionalProperties: false,
-  };
-
-  const validate = ajv.compile(schema);
+  const validate = ajv.compile(userRequest);
   const valid = validate(req.body);
 
   if (valid) {
