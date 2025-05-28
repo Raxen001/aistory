@@ -13,6 +13,7 @@
     "@auth/express": "^0.10.1",
     "@clerk/backend": "^1.33.0",
     "@clerk/express": "^1.5.0",
+    "@google/genai": "^1.1.0",
     "ajv": "^8.17.1",
     "cors": "^2.8.5",
     "dotenv": "^16.5.0",

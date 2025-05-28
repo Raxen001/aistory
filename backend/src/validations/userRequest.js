@@ -14,7 +14,7 @@ function userRequestScehmaValidate(req, res, next) {
   // TODO: create invalid request page
   return res.send(
     {
-      response: "Error Invalid Reqeust",
+      response: "Error Invalid Reqeust. Bad body",
     },
     400,
   );
