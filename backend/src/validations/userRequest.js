@@ -8,11 +8,11 @@ function userRequestScehmaValidate(req, res, next) {
   const valid = validate(req.body);
 
   if (valid) {
-    next();
+    return next();
   }
 
   // TODO: create invalid request page
-  res.send(
+  return res.send(
     {
       response: "Error Invalid Reqeust",
     },
