@@ -32,7 +32,9 @@ function App() {
   return (
     <header>
       <SignedOut>
-        <SignIn />
+        <div className="flex justify-center m-25">
+          <SignIn />
+        </div>
       </SignedOut>
       <SignedIn>
         <UserButton />
