@@ -1,8 +1,13 @@
-import express from "express";
+import Gemini from '../services/gemini.conciser.service.js'
 
-function appController(req, res) {
-  // call services from here
-  return { response: "hi" };
+async function appController(req) {
+    const userInputText = req?.body?.userText
+    const GeminiAPI = new Gemini()
+    const result = await GeminiAPI.conciseThisText(userInputText)
+
+    return {
+        result: result,
+    }
 }
 
-export default appController;
+export default appController

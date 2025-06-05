@@ -1,25 +1,25 @@
-import express from "express";
-import { requireAuth } from "@clerk/express";
-import userRequestValid from "../../validations/userRequest.js";
-import appController from "../../controllers/appController.js";
+import express from 'express'
+import { requireAuth } from '@clerk/express'
+import userRequestValid from '../../validations/userRequest.js'
+import appController from '../../controllers/appController.js'
 
-const router = express.Router();
+const router = express.Router()
 
 // router.route("/").get(requireAuth(), async (req, res) => {
-//
-router.route("/").post(requireAuth(), userRequestValid, async (req, res) => {
-  const result = appController(req, res);
 
-  if (!result) {
-    return res.send(
-      {
-        response: "500 INTERNAL SERVER ERROR",
-      },
-      500,
-    );
-  }
+router.route('/').post(requireAuth(), userRequestValid, async (req, res) => {
+    const result = await appController(req, res)
 
-  res.send(result);
-});
+    if (!result) {
+        return res.send(
+            {
+                response: '500 INTERNAL SERVER ERROR',
+            },
+            500
+        )
+    }
 
-export default router;
+    res.send(result)
+})
+
+export default router
