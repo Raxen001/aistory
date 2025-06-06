@@ -1,5 +1,5 @@
 import Ajv from "ajv";
-import userRequest from "../models/userRequest.js";
+import userRequest from "../models/userRequest.model.js";
 
 function userRequestScehmaValidate(req, res, next) {
   const ajv = new Ajv();
