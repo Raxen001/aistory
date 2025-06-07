@@ -15,7 +15,7 @@ const AIResponseConfig = {
             setting: {
                 type: Type.STRING,
             },
-            time: {
+            timeOfDay: {
                 type: Type.STRING,
             },
             place: {
@@ -31,7 +31,7 @@ const AIResponseConfig = {
                 type: Type.STRING,
             },
         },
-        propertyOrdering: ['setting', 'time', 'place', 'characters', 'story'],
+        propertyOrdering: ['setting', 'timeOfDay', 'place', 'characters', 'story'],
     },
 }
 
