@@ -2,7 +2,7 @@ const userRequest = {
     type: 'object',
     properties: {
         userId: { type: 'string', maxLength: 36 }, // UUID 36 length
-        userText: { type: 'string', maxLength: 200 }, // tokens
+        userText: { type: 'string'}, // tokens
     },
     required: ['userId', 'userText'],
     additionalProperties: false,
