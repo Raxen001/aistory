@@ -1,4 +1,4 @@
-It was a sunny day, It happened in the morning, They were living nearby a light house at Edinburgh.
+It was a CyberPunk future, It was a sunny day, It happened in the morning, They were living nearby a light house at Edinburgh.
 Elsa walked out of the room looking as grumpy as usual.
 Good Morning Mum, Dad She said and sat down.
 Good Morning Elsa her father said while her mum rolled her eyes.
