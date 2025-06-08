@@ -1,10 +1,8 @@
-import Gemini from '../services/gemini.conciser.service.js'
+import { conciserService } from '../services/index.js'
 
 async function appController(req) {
     const userInputText = req?.body?.userText
-    const GeminiAPI = new Gemini()
-    const result = await GeminiAPI.conciseThisText(userInputText)
-    
+    const result = await conciserService.conciseThisText(userInputText)
 
     return {
         result: result,

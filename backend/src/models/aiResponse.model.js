@@ -14,11 +14,12 @@ const AIResponseConfig = {
         properties: {
             setting: {
                 type: Type.STRING,
+                enum: ['Fantasy', 'Real World', 'CyberPunk', 'SteamPunk'],
             },
             timeOfDay: {
                 type: Type.STRING,
             },
-            place: {
+            location: {
                 type: Type.STRING,
             },
             characters: {
@@ -31,8 +32,21 @@ const AIResponseConfig = {
                 type: Type.STRING,
             },
         },
-        propertyOrdering: ['setting', 'timeOfDay', 'place', 'characters', 'story'],
+        propertyOrdering: [
+            'setting',
+            'timeOfDay',
+            'location',
+            'characters',
+            'story',
+        ],
     },
 }
+
+// person aliases
+// person facial strucutre
+// ethinicity
+// markings {}
+// -> image
+// -> cache
 
 export default AIResponseConfig
