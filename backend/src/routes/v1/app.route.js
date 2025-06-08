@@ -1,7 +1,7 @@
-import express from 'express'
-import { requireAuth } from '@clerk/express'
-import userRequestValid from '../../validations/userRequest.js'
-import appController from '../../controllers/appController.js'
+import { requireAuth } from "@clerk/express";
+import express from "express";
+import appController from "../../controllers/appController.js";
+import userRequestValid from "../../validations/userRequest.js";
 
 const router = express.Router()
 
