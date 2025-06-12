@@ -15,7 +15,6 @@ class Gemini extends Conciser {
             config: AIResponseConfig,
         })
 
-        console.log(response.text)
         return response.text
     }
 }
