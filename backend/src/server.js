@@ -8,7 +8,6 @@ dotenv.config()
 const app = express()
 const port = 3000
 
-// allow cors.
 app.use(
     cors({
         origin: 'http://localhost:5173',
