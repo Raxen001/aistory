@@ -22,7 +22,7 @@ function App() {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                userId: "hashah",
+                userId: "test_user_id",
                 userText: userText,
             }),
         });
@@ -34,6 +34,7 @@ function App() {
             setData(parsed);
         } catch (err) {
             setData(json);
+            console.log(err);
         }
     }
 
@@ -85,6 +86,7 @@ function App() {
                 >
                     {JSON.stringify(data, null, 2)}
                 </pre>
+                <img src={data.imagePath}/>
             </SignedIn>
         </header>
     );

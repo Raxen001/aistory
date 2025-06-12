@@ -10,12 +10,12 @@ const ai = new GoogleGenAI({
 class Gemini extends Conciser {
     async conciseThisText(userInputText) {
         const response = await ai.models.generateContent({
-            model: 'gemini-2.0-flash',
+            model: config.RESPOSNE_MODELS,
             contents: userInputText,
             config: AIResponseConfig,
         })
 
-        return response.text
+        return JSON.parse(response.text)
     }
 }
 
