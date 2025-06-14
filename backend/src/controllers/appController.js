@@ -1,11 +1,19 @@
-import { conciserService } from '../services/index.js'
+import { conciserService, imageGenService } from '../services/index.js'
 
 async function appController(req) {
     const userInputText = req?.body?.userText
-    const result = await conciserService.conciseThisText(userInputText)
+    const concisedTextObj = await conciserService.conciseThisText(userInputText)
+    const imagePathObj = {
+        imagePath: await imageGenService.getImagePath(concisedTextObj),
+    }
+
+    const result = {
+        ...concisedTextObj,
+        ...imagePathObj,
+    }
 
     return {
-        result: result,
+        result,
     }
 }
 

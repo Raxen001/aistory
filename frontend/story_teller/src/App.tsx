@@ -86,7 +86,8 @@ function App() {
                 >
                     {JSON.stringify(data, null, 2)}
                 </pre>
-                <img src={data.imagePath}/>
+
+                <img src={`images/${data.imagePath}.png`}/>
             </SignedIn>
         </header>
     );
