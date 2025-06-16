@@ -30,6 +30,32 @@ const AIResponseConfig = {
             },
             story: {
                 type: Type.STRING,
+                description: 'Make the folloing story text concise without losing the overall story plotlines. Do not make the concise too small as to losing major plot points. Keep characters, keep major events.'
+            },
+            peopleList: {
+                type: Type.ARRAY,
+                items: {
+                    type: Type.OBJECT,
+                    properties: {
+                        personName: {
+                            type: Type.STRING,
+                        },
+                        personAlias: {
+                            type: Type.ARRAY,
+                            items: {
+                                type: Type.STRING,
+                            },
+                        },
+                        personGender: {
+                            type: Type.STRING,
+                            enum: ['MALE', 'FEMALE', 'TRANS'],
+                        },
+                        personDescription: {
+                            type: Type.STRING,
+                            description: 'Describe how the person looks, their face, their color, their type etc.'
+                        },
+                    },
+                },
             },
         },
         propertyOrdering: [
@@ -38,6 +64,7 @@ const AIResponseConfig = {
             'location',
             'characters',
             'story',
+            'peopleList',
         ],
     },
 }
