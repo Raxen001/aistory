@@ -1,3 +1,5 @@
+Concise the following text below 200 words. Make sure not to lose the overall story line when adding to the concise object. 
+
 It was a CyberPunk future, It was a sunny day, It happened in the morning, They were living nearby a light house at Edinburgh.
 Elsa walked out of the room looking as grumpy as usual.
 Good Morning Mum, Dad She said and sat down.
