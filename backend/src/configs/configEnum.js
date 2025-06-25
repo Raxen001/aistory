@@ -1,5 +1,6 @@
 import { Modality } from "@google/genai";
 
+
 export const ConciseTextModel = Object.freeze({
   MODEL: "",
   CONFIG: "", //make sure to declare config that are only related to text gen here.
