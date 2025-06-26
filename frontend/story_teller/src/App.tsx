@@ -14,7 +14,7 @@ function App() {
 
     async function callProtectedAuthRequired() {
         const token = await getToken();
-        const res = await fetch("http://localhost:3000/v1/app/", {
+        const res = await fetch("http://localhost:3000/v1/conciser/", {
             method: "POST",
             headers: {
                 "Authorization": `Bearer ${token}`,

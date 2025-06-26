@@ -1,19 +1,17 @@
-import express from 'express';
-import appRoute from "./app.route.js";
+import express from 'express'
+import conciserRoute from './conciser.route.js'
 
-const router = express.Router();
-
+const router = express.Router()
 
 const defaultRoutes = [
-  {
-        path: "/app",
-        route: appRoute,
-  }
-];
-
+    {
+        path: '/conciser',
+        route: conciserRoute,
+    },
+]
 
 defaultRoutes.forEach((route) => {
-  router.use(route.path, route.route);
-});
+    router.use(route.path, route.route)
+})
 
-export default router;
+export default router
