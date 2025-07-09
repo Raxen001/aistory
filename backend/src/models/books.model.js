@@ -11,11 +11,11 @@ const bookSchema = new mongoose.Schema({
         required: true,
         default: '',
     },
-    description: {
+    story: {
         type: String,
         default: '',
     },
-    persons: {
+    characters: {
         type: Array,
     },
 })

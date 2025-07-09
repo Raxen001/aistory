@@ -23,6 +23,7 @@ function App() {
             },
             body: JSON.stringify({
                 userId: "test_user_id",
+                bookId: "1231231",
                 userText: userText,
             }),
         });
@@ -87,7 +88,7 @@ function App() {
                     {JSON.stringify(data, null, 2)}
                 </pre>
 
-                <img src={`images/${data.imagePath}.png`}/>
+                <img src={`images/${data.imagePath}.png`} />
             </SignedIn>
         </header>
     );
