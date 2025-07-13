@@ -1,4 +1,5 @@
-import { conciserService, imageGenService } from '../services/index.js'
+import { GenerateImagesResponse } from '@google/genai'
+import { conciserService, imageGenService, charImageGenService } from '../services/index.js'
 import {
     createBookData,
     checkIfBookExists,
@@ -7,37 +8,25 @@ import {
 
 async function appController(req) {
     // TODO:
-    // assuming it to be here.
-    const bookId = req?.body?.bookId
+    // assuming book name.
     const bookName = 'Something'
-    let book
+
+    const bookId = req?.body?.bookId
 
     const userInputText = req?.body?.userText
     const concisedTextObj = await conciserService.conciseThisText(userInputText)
-    const imagePathObj = {
-        // imagePath: await imageGenService.getImagePath(concisedTextObj),
-        imagePath: 'https://example.com/',
-    }
-
     console.log('[LOG]: concisedTextObj> ')
     console.log(concisedTextObj)
-
-    const ifBookExists = await checkIfBookExists(bookId)
-    if (!ifBookExists) {
-        book = await createBookData(
-            bookId,
-            bookName,
-            concisedTextObj.story,
-            concisedTextObj.characterList
-        )
-    } else {
-        book = await updateBookData(
-            bookId,
-            concisedTextObj.story,
-            concisedTextObj.characterList
-        )
-        console.log('[LOG]: after' + book)
+    const imagePathObj = {
+        imagePath: await imageGenService.getImagePath(concisedTextObj),
     }
+
+
+    const book = await getBookDataOrCreateBookData(
+        bookId,
+        bookName,
+        concisedTextObj
+    )
 
     const result = {
         ...book,
@@ -47,6 +36,40 @@ async function appController(req) {
     return {
         result,
     }
+}
+
+async function getBookDataOrCreateBookData(bookId, bookName, concisedTextObj) {
+    const ifBookExists = await checkIfBookExists(bookId)
+    const characterList = await generateCharacterImage(concisedTextObj.characterList)
+
+    if (!ifBookExists) {
+        const book = await createBookData(
+            bookId,
+            bookName,
+            concisedTextObj.story,
+            characterList
+        )
+        return book
+    } else {
+        const book = await updateBookData(
+            bookId,
+            concisedTextObj.story,
+            characterList
+        )
+        return book
+    }
+}
+
+async function generateCharacterImage(characterList) {
+    for (const character of characterList) {
+        if (character['imageUrl']) {
+            continue
+        }
+
+        character['imageUrl'] = await charImageGenService.getImagePath(character['personName'], character['personDescription'])
+    }
+
+    return characterList
 }
 
 export default appController
