@@ -1,12 +1,14 @@
-import { ReturnDocument } from 'mongodb'
 import dbCon from '../configs/db.js'
 import Book from '../models/books.model.js'
 
 dbCon()
 
+const projection = { _id: 0, id: 1, name: 1, story: 1, characters: 1 }
+
 async function getBookData(bookId) {
     try {
-        const book = await Book.findOne({ id: bookId })
+        const book = await Book.findOne({ id: bookId }, projection).lean()
+        console.log('[LOG]: BOOK DATA: ')
         if (!book) {
             throw new Error('Book not found')
         }
@@ -35,8 +37,10 @@ async function createBookData(id, bookName, story, characters) {
     try {
         const newBook = new Book(data)
         newBook.save()
-        console.log('[LOG]: New book created. ' + newBook)
-        return newBook
+
+        // Formatting fields is a pain int he ass.
+        const book = getBookData(newBook.id)
+        return book
     } catch (error) {
         throw new Error('[ERROR]: When Creating document' + error.message)
     }
@@ -67,7 +71,8 @@ async function updateBookData(bookId, newStory, newCharacters) {
 
         const book = await Book.findOneAndUpdate(filter, update, {
             returnDocument: 'after',
-        })
+            projection: projection,
+        }).lean()
 
         if (!book) {
             throw new Error('Book not found')

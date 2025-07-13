@@ -24,11 +24,13 @@ const AIResponseConfig = {
             },
             story: {
                 type: Type.STRING,
-                description: 'Make the folloing story text concise without losing the overall story plotlines. Do not make the concise too small as to losing major plot points. Keep characters, keep major events.'
+                description:
+                    'Make the folloing story text concise without losing the overall story plotlines. Do not make the concise too small as to losing major plot points. Keep characters, keep major events.',
             },
             characterList: {
                 type: Type.ARRAY,
-                description: 'Do not assume characters names use only the ones that is provided to you. The characters in this story should be listed as much possible. Try to list them here.',
+                description:
+                    'Do not assume characters names use only the ones that is provided to you. The characters in this story should be listed as much possible. Try to list them here.',
                 items: {
                     type: Type.OBJECT,
                     properties: {
@@ -47,13 +49,21 @@ const AIResponseConfig = {
                         },
                         personDescription: {
                             type: Type.STRING,
-                            description: 'Describe how the person looks, their face, their color, their type etc.'
+                            description:
+                                'Describe how the person looks, their face, their color, their type etc.',
                         },
                     },
                 },
             },
         },
         propertyOrdering: [
+            'setting',
+            'timeOfDay',
+            'location',
+            'story',
+            'characterList',
+        ],
+        required: [
             'setting',
             'timeOfDay',
             'location',
