@@ -5,6 +5,9 @@ class ImageGeneration{
   getImagePath(){
     throw new Error('getImagePath() must be implemented.');
   }
+  saveImageToPath(part){
+    throw new Error('saveImageToPath() must be implemented.');
+  }
 }
 
 export default ImageGeneration;
