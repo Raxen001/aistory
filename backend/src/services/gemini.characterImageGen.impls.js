@@ -30,33 +30,33 @@ export class CharacterImageGenImpl extends ImageGeneration {
             if (part.text) {
                 console.log('Text Response:', part.text)
             } else if (part.inlineData) {
-                // TODO: need error handling for when it can't write
-                // TODO: This write function should be a parent class implementation.
-                const buffer = Buffer.from(part.inlineData.data, 'base64')
-
-                // DEBUG: delete later
-                const tmpDir = path.join(
-                    '..',
-                    'frontend',
-                    'story_teller',
-                    'public',
-                    'images'
-                )
-
-                if (!fs.existsSync(tmpDir)) {
-                    fs.mkdirSync(tmpDir, { recursive: true })
-                }
-
-                const UUID = uuidv4()
-                const filePath = path.join(tmpDir, `${UUID}.png`)
-                fs.writeFileSync(filePath, buffer)
-
-                console.log('CHAR_FUCK:', UUID)
-                return {
-                    UUID: UUID,
-                    filePath: filePath,
-                }
+                return this.saveImageToPath(part);
             }
+        }
+    }
+
+    async saveImageToPath(part) {
+        // TODO: need error handling for when it can't write
+        // TODO: This write function should be a parent class implementation.
+        const buffer = Buffer.from(part.inlineData.data, 'base64')
+        // DEBUG: delete later
+        const tmpDir = path.join(
+            '..',
+            'frontend',
+            'story_teller',
+            'public',
+            'images'
+        )
+        if (!fs.existsSync(tmpDir)) {
+            fs.mkdirSync(tmpDir, { recursive: true })
+        }
+        const UUID = uuidv4()
+        const filePath = path.join(tmpDir, `${UUID}.png`)
+        fs.writeFileSync(filePath, buffer)
+        console.log('CHAR_FUCK:', UUID)
+        return {
+            UUID: UUID,
+            filePath: filePath,
         }
     }
 
