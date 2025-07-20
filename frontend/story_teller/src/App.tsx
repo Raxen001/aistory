@@ -6,8 +6,9 @@ import {
     useAuth,
     UserButton,
 } from "@clerk/clerk-react";
-import ePub from "epubjs";
+import '../../../foliate-js/view.js';
 function App() {
+    const view = document.createElement('foliate-view');
     const { getToken } = useAuth();
     const [data, setData] = useState(null);
     const [userText, setUserText] = useState("");
@@ -23,34 +24,19 @@ function App() {
         //do we need to reset the event to '' , so that if the user uploads the same epub again it will be considered as a different event
         const sectionPromises: Promise<string>[] = [];
         if (file && file.name.endsWith(".epub")) {
-            const fileReader = new FileReader();
-
-            fileReader.onload = async () => {
-                try {
-                    const arrayBuffer = fileReader.result as ArrayBuffer;
-                    const book = ePub(arrayBuffer);
-                    await book.ready;
-                    const parser = new DOMParser();
-                    let count = 0;
-                    book.spine.each((section: Section) => {
-                        const sectionPromise = (async () => {
-                            const chapter = await book.load(section.href);
-                            if (!(chapter instanceof Document) || !chapter.body?.textContent) {
-                                return "";
-                            }
-                            return chapter.body.textContent.trim();
-                        })();
-                        sectionPromises.push(sectionPromise);
-                    });
-                    const content = await Promise.all(sectionPromises);
-                    setEpubData(content);
-                    console.log(content);
-                } catch (error) {
-                    console.error("Failed to read EPUB:", error);
-                }
-            };
-
-            fileReader.readAsArrayBuffer(file);
+            await view.open(file);
+            const book = view.book;
+            const chapterToSectionMap : Map<string , string> = new Map();
+            
+            for (let i = 0; i < book.toc.length; i++) {
+                const chapterNumber = book.toc[i]?.label;
+                // i+2 to skip the cover page and table of contents.
+                const section = book.sections[i+2];
+                const url = await section.createDocument();
+                chapterToSectionMap.set(chapterNumber , url.body.textContent);
+            }
+            console.log(chapterToSectionMap);
+            
         } else {
             alert("Please upload a valid EPUB file.");
         }
