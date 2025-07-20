@@ -52,7 +52,7 @@ export class ImageGenImpl extends ImageGeneration {
             handleError(error);
         }
     }
-    //todo : this is sync call , need to remove async in future.
+    // TODO : this is sync call , need to remove async in future.
     async saveImageToPath(part) {
         // TODO: need error handling for when it can't write
         // TODO: This write function should be a parent class implementation.
