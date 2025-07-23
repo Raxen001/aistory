@@ -4,7 +4,7 @@ import { useLocation } from "react-router";
 function ReaderComponent(){
     const location = useLocation();
     //have used url as data between router can be passed as blob or url.. , and view.open()  accepts url/blob.. might modify it in future.
-    const { epubUrl , setEpubData} = location.state || {};
+    const { epubUrl } = location.state || {};
     useEffect(() => {
         if (!epubUrl) {
             alert("No EPUB file provided.");
@@ -12,8 +12,8 @@ function ReaderComponent(){
         }
         const open = async (file) => {
             const reader = new Reader();
+            //has the chapter no - chapter text mapping.
             const chapterNumberToContentJson = await reader.open(file);
-            setEpubData(chapterNumberToContentJson);
         }
         //to wait for jsx to get into dom , i forgot the name for it lol.
         setTimeout(() => {
