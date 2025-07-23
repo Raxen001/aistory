@@ -14,8 +14,6 @@ function App() {
     const { getToken } = useAuth();
     const [data, setData] = useState(null);
     const [userText, setUserText] = useState("");
-    //will be set in reader.tsx once the open is called.
-    const [epubData , setEpubData] = useState<string[] | null>(null);
     const ePubFileRef = useRef<HTMLInputElement | null>(null);
     const navigate = useNavigate();
     const handleRef = () => {
@@ -26,7 +24,7 @@ function App() {
         const file = event.target.files?.[0];
         if (file && file.name.endsWith(".epub")) {
             const blobUrl = URL.createObjectURL(file);
-            navigate('/reader', { state: { epubUrl: blobUrl, name: file.name , setEpubData } });
+            navigate('/reader', { state: { epubUrl: blobUrl, name: file.name} });
         } else {
             alert("Please upload a valid EPUB file.");
         }
