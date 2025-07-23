@@ -100,10 +100,10 @@ class Reader {
         $('#menu-button').append(menu.element)
         $('#menu-button > button').addEventListener('click', () =>
             menu.element.classList.toggle('show'))
-        menu.groups.layout.select('paginated')
+        menu.groups.layout.select('scrolled')
     }
     async open(file) {
-        const rootDiv = document.getElementById('root');
+        const rootDiv = document.getElementById('epub_root');
         this.view = document.createElement('foliate-view')
         rootDiv.appendChild(this.view);
         await this.view.open(file)
@@ -131,7 +131,11 @@ class Reader {
         $('#header-bar').style.visibility = 'visible'
         $('#nav-bar').style.visibility = 'visible'
         $('#left-button').addEventListener('click', () => this.view.goLeft())
-        $('#right-button').addEventListener('click', () => this.view.goRight())
+        $('#right-button').addEventListener('click', () => {
+            this.view.goRight()
+            console.log(this.view);
+        }
+        )
 
         const slider = $('#progress-slider')
         slider.dir = book.dir
