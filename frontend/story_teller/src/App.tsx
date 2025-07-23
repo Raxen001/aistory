@@ -7,40 +7,31 @@ import {
     UserButton,
 } from "@clerk/clerk-react";
 import '../../../foliate-js/view.js';
+import {Reader } from '../../../foliate-js/reader.js'
+import { useNavigate } from "react-router";
 function App() {
-    const view = document.createElement('foliate-view');
+
     const { getToken } = useAuth();
     const [data, setData] = useState(null);
     const [userText, setUserText] = useState("");
+    //will be set in reader.tsx once the open is called.
     const [epubData , setEpubData] = useState<string[] | null>(null);
     const ePubFileRef = useRef<HTMLInputElement | null>(null);
-
+    const navigate = useNavigate();
     const handleRef = () => {
         ePubFileRef.current?.click();
     };
 
     const handleFileChange = async (event: ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
-        //do we need to reset the event to '' , so that if the user uploads the same epub again it will be considered as a different event
-        const sectionPromises: Promise<string>[] = [];
         if (file && file.name.endsWith(".epub")) {
-            await view.open(file);
-            const book = view.book;
-            const chapterToSectionMap : Map<string , string> = new Map();
-            
-            for (let i = 0; i < book.toc.length; i++) {
-                const chapterNumber = book.toc[i]?.label;
-                // i+2 to skip the cover page and table of contents.
-                const section = book.sections[i+2];
-                const url = await section.createDocument();
-                chapterToSectionMap.set(chapterNumber , url.body.textContent);
-            }
-            console.log(chapterToSectionMap);
-            
+            const blobUrl = URL.createObjectURL(file);
+            navigate('/reader', { state: { epubUrl: blobUrl, name: file.name , setEpubData } });
         } else {
             alert("Please upload a valid EPUB file.");
         }
     };
+
 
     async function callProtectedAuthRequired() {
         try {
@@ -121,12 +112,15 @@ function App() {
                         cursor: "pointer",
                         marginBottom: "1em",
                     }}
+                    id="file-button"
+                    className="btn-epub"
                 >
                     Upload Epub
                 </button>
                 <input
                 type="file"
                 accept=".epub"
+                id="file-input"
                 ref={ePubFileRef}
                 style={{ display: "none" }}
                 onChange={handleFileChange}
@@ -193,6 +187,7 @@ function App() {
                         </pre>
                     </>
                 )}
+
             </SignedIn>
         </header>
     );
