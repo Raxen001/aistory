@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 
 const EpubReader: React.FC = () => {
+
+
     return (
         <main
             style={{
@@ -11,8 +13,11 @@ const EpubReader: React.FC = () => {
                 overflow: "hidden",
             }}
         >
-            <div className="epub-reader-div" id="epub_root"
-                style={{ width: "100%", height: "100%" }}>
+            <div
+                className="epub-reader-div"
+                id="epub_root"
+                style={{ width: "100%", height: "100%" }}
+            >
                 {/* The foliate view UI will mount inside #epub_root or this container */}
             </div>
 
@@ -23,10 +28,16 @@ const EpubReader: React.FC = () => {
 
             <div id="header-bar"></div>
 
-            <input id="file-input" type="file" style={{ display: "none" }} accept=".epub" />
+            <input
+                id="file-input"
+                type="file"
+                style={{ display: "none" }}
+                accept=".epub"
+            />
             <button id="file-button" style={{ display: "none" }}>
                 Upload EPUB
             </button>
+
         </main>
     );
 };

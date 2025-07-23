@@ -5,43 +5,43 @@ import ProgressBar from "./ProgressBar";
 import EpubReader from "./EpubReader";
 
 interface ReaderPageRightProps {
-  epubUrl?: string;
+    epubUrl?: string;
 }
 
 const ReaderPageRight: React.FC<ReaderPageRightProps> = ({ epubUrl }) => {
-  useEffect(() => {
-    if (!epubUrl) {
-      alert("No EPUB file provided.");
-      return;
-    }
-    const open = async (file: string) => {
-      const reader = new Reader();
-      await reader.open(file);
-    };
+    useEffect(() => {
+        if (!epubUrl) {
+            alert("No EPUB file provided.");
+            return;
+        }
+        const open = async (file: string) => {
+            const reader = new Reader();
+            await reader.open(file);
+        };
 
-    const timer = setTimeout(() => {
-      open(epubUrl).catch((e) => console.error(e));
-    }, 5);
+        const timer = setTimeout(() => {
+            open(epubUrl).catch((e) => console.error(e));
+        }, 5);
 
-    return () => clearTimeout(timer);
-  }, [epubUrl]);
+        return () => clearTimeout(timer);
+    }, [epubUrl]);
 
-  return (
-    <div
-      style={{
-        flex: 1,
-        display: "flex",
-        flexDirection: "column",
-        height: "100%",
-        position: "relative",
-        overflow: "hidden",
-      }}
-    >
-      <ReaderSideBar />
-      <ProgressBar />
-      <EpubReader />
-    </div>
-  );
+    return (
+        <div
+            style={{
+                flex: 1,
+                display: "flex",
+                flexDirection: "column",
+                height: "100%",
+                position: "relative",
+                overflow: "hidden",
+            }}
+        >
+            <ReaderSideBar />
+            <ProgressBar />
+            <EpubReader />
+        </div>
+    );
 };
 
 export default ReaderPageRight;
