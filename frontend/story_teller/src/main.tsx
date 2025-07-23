@@ -5,7 +5,8 @@ import App from "./App.tsx";
 import { BrowserRouter, Router, Routes } from "react-router";
 
 import { ClerkProvider } from '@clerk/clerk-react'
-import ReaderComponent from "./components/reader.tsx";
+// import ReaderComponent from "./components/reader.tsx";
+import ReaderPage from "./pages/ReaderPage.tsx";
 import { Route } from "react-router";
 
 const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY
@@ -20,7 +21,7 @@ createRoot(document.getElementById("root")!).render(
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<App />} />
-            <Route path="/reader" element={<ReaderComponent/>} />
+            <Route path="/reader" element={<ReaderPage />} />
           </Routes>
         </BrowserRouter>
     </ClerkProvider>
