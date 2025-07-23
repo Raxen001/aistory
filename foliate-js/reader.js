@@ -131,11 +131,7 @@ class Reader {
         $('#header-bar').style.visibility = 'visible'
         $('#nav-bar').style.visibility = 'visible'
         $('#left-button').addEventListener('click', () => this.view.goLeft())
-        $('#right-button').addEventListener('click', () => {
-            this.view.goRight()
-            console.log(this.view);
-        }
-        )
+        $('#right-button').addEventListener('click', () => this.view.goRight())
 
         const slider = $('#progress-slider')
         slider.dir = book.dir
@@ -206,6 +202,10 @@ class Reader {
     }
     #onLoad({ detail: { doc } }) {
         doc.addEventListener('keydown', this.#handleKeydown.bind(this))
+        const pageContentsElem = document.getElementById("pageContents");
+        if (pageContentsElem) {
+            pageContentsElem.dataset.pageContents = doc.body.textContent?.trim() || "";
+        }
     }
     #onRelocate({ detail }) {
         const { fraction, location, tocItem, pageItem } = detail
