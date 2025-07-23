@@ -7,7 +7,8 @@ const router = express.Router()
 
 // router.route("/").get(requireAuth(), async (req, res) => {
 
-router.route('/').post(requireAuth(), userRequestValid, async (req, res) => {
+// router.route('/').post(requireAuth(), userRequestValid, async (req, res) => {
+router.route('/').post( userRequestValid, async (req, res) => {
     const result = await appController(req, res)
 
     if (!result) {
