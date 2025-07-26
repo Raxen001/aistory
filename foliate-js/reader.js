@@ -100,10 +100,10 @@ class Reader {
         $('#menu-button').append(menu.element)
         $('#menu-button > button').addEventListener('click', () =>
             menu.element.classList.toggle('show'))
-        menu.groups.layout.select('paginated')
+        menu.groups.layout.select('scrolled')
     }
     async open(file) {
-        const rootDiv = document.getElementById('root');
+        const rootDiv = document.getElementById('epub_root');
         this.view = document.createElement('foliate-view')
         rootDiv.appendChild(this.view);
         await this.view.open(file)
@@ -202,6 +202,10 @@ class Reader {
     }
     #onLoad({ detail: { doc } }) {
         doc.addEventListener('keydown', this.#handleKeydown.bind(this))
+        const pageContentsElem = document.getElementById("pageContents");
+        if (pageContentsElem) {
+            pageContentsElem.dataset.pageContents = doc.body.textContent?.trim() || "";
+        }
     }
     #onRelocate({ detail }) {
         const { fraction, location, tocItem, pageItem } = detail
