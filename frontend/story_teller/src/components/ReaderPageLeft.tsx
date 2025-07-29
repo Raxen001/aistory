@@ -23,13 +23,11 @@ const ReaderPageLeft: React.FC<ReaderPageLeftProps> = ({ userId, bookId, token }
 
     const fetchData = useCallback(
         async (userText: string | null) => {
-            console.log("Fuck")
             console.log(userText);
 
             if (!userText) return;
             if (!userText.trim()) return;
 
-            console.log('fuck')
             console.log(userText)
 
 
@@ -137,6 +135,7 @@ const ReaderPageLeft: React.FC<ReaderPageLeftProps> = ({ userId, bookId, token }
                     flex: 1,
                     padding: "1rem",
                     display: "flex",
+                    height: "33%",
                     justifyContent: "center",
                     alignItems: "center",
                 }}
