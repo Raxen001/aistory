@@ -46,3 +46,9 @@ backend/node_modules
 backend/pnpm-lock.yaml
 backend/.env
 backend/output
+
+foliate-js/node_modules
+aistory/epub-chatbot-poc/.venv
+
+aistory/epub-chatbot-poc/.env
+
