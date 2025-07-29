@@ -1,0 +1,12 @@
+[project]
+name = "epub-chatbot-poc"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "langchain>=0.3.27",
+    "langchain-google-genai>=2.1.8",
+    "langchain-huggingface>=0.3.1",
+    "pymilvus>=2.5.14",
+]
