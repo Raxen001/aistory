@@ -8,9 +8,6 @@ importers:
 
   .:
     dependencies:
-      '@ant-design/icons':
-        specifier: ~5.6.1
-        version: 5.6.1(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
       '@clerk/clerk-react':
         specifier: ^5.31.6
         version: 5.31.6(react-dom@19.1.0(react@19.1.0))(react@19.1.0)

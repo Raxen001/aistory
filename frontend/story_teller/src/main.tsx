@@ -1,29 +1,46 @@
-import { StrictMode } from "react";
+import React from "react";
 import { createRoot } from "react-dom/client";
-import './index.css'
-import App from "./App.tsx";
-import { BrowserRouter, Router, Routes } from "react-router";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router";
+import { ClerkProvider, RedirectToSignIn, useAuth } from "@clerk/clerk-react";
+import ReaderPage from "./pages/ReaderPage";
+import { Spin } from 'antd';
 
-import { ClerkProvider } from '@clerk/clerk-react'
-// import ReaderComponent from "./components/reader.tsx";
-import ReaderPage from "./pages/ReaderPage.tsx";
-import { Route } from "react-router";
+const clerkPubKey = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
 
-const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY
-
-if (!PUBLISHABLE_KEY) {
-  throw new Error('Missing Publishable Key')
+if (!clerkPubKey) {
+    throw new Error("Missing Publishable Key");
 }
 
-createRoot(document.getElementById("root")!).render(
+const PrivateRoute = ({ children }: { children: React.JSX.Element }) => {
+    const { isLoaded, userId } = useAuth();
 
-        <ClerkProvider publishableKey={PUBLISHABLE_KEY} afterSignOutUrl='/'>
+    if (!isLoaded) {
+        return <Spin />;
+    }
+
+    if (!userId) {
+        return <Navigate to="/sign-in" replace />;
+    }
+
+    return children;
+};
+
+createRoot(document.getElementById("root")!).render(
+    <ClerkProvider publishableKey={clerkPubKey} afterSignOutUrl="/">
         <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<App />} />
-            <Route path="/reader" element={<ReaderPage />} />
-          </Routes>
+            <Routes>
+                <Route
+                    path="/reader"
+                    element={
+                        <PrivateRoute>
+                            <ReaderPage />
+                        </PrivateRoute>
+                    }
+                />
+                <Route path="/" element={<Navigate to="/reader" replace />} />
+                <Route path="/sign-in" element={<RedirectToSignIn />} />
+                <Route path="*" element={<Navigate to="/reader" replace />} />
+            </Routes>
         </BrowserRouter>
     </ClerkProvider>
-
 );
