@@ -9,4 +9,4 @@ cd "$project_dir"/frontend/story_teller/
 zellij run --name "frontend" -- zsh -ic "pnpm run dev";
 
 cd "$project_dir"
-docker compose up
+docker compose -f ./docker-compose-dev.yml up
