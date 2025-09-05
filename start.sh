@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-project_dir=$HOME/Code/projects/ai-story-teller/
+project_dir=$HOME/Code/projects/voxabook/
 
 cd "$project_dir"/backend/
 zellij run --name "backend" -- zsh -ic "pnpm run dev";
