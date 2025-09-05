@@ -1,9 +1,12 @@
 import React from "react";
-import EpubTOC, { type TocItem } from "./EpubTOC";
+import { Layout } from "antd";
+import CollapsibleSidebar from "./CollapsibleSidebar";
 import EpubNavigation from "./EpubNavigation";
 
+const { Content } = Layout;
+
 type Props = {
-    toc: TocItem[] | null;
+    toc: any[] | null;
     onTocSelect: (href: string) => void;
     canPrev: boolean;
     canNext: boolean;
@@ -27,47 +30,39 @@ const EpubLayout: React.FC<Props> = ({
     currentHref,
     children,
 }) => (
-    <div
+    <Layout
         style={{
             marginTop: 24,
             background: "#fff",
             borderRadius: 8,
-            padding: 16,
+            padding: 0,
             height: "100%",
             overflow: "hidden",
-            display: "flex",
-            flexDirection: "row",
             flexGrow: 1,
         }}
     >
-
-        {/* Left side: Table of Contents with currentHref */}
-        <div style={{ width: 280, borderRight: "1px solid #ddd" }}>
-            {toc && <EpubTOC toc={toc} onSelect={onTocSelect} currentHref={currentHref} />}
-        </div>
-
-        {/* Right side: Viewer and Navigation */}
-        <div
-            style={{
-                flexGrow: 1,
-                display: "flex",
-                flexDirection: "column",
-                overflow: "auto",
-                paddingLeft: 16,
-            }}
-        >
-            {fileLoaded ? (
-                <>
-                    <div ref={viewerRef} style={{ flexGrow: 1 }} />
-                    <EpubNavigation onPrev={onPrev} onNext={onNext} canPrev={canPrev} canNext={canNext} />
-                </>
-            ) : (
-                <div>No EPUB uploaded.</div>
-            )}
-            {children}
-        </div>
-
-    </div>
+        <CollapsibleSidebar toc={toc} onTocSelect={onTocSelect} currentHref={currentHref} />
+        <Layout>
+            <Content
+                style={{
+                    padding: 16,
+                    display: "flex",
+                    flexDirection: "column",
+                    overflow: "auto",
+                }}
+            >
+                {fileLoaded ? (
+                    <>
+                        <div ref={viewerRef} style={{ flexGrow: 1 }} />
+                        <EpubNavigation onPrev={onPrev} onNext={onNext} canPrev={canPrev} canNext={canNext} />
+                    </>
+                ) : (
+                    <div>No EPUB uploaded.</div>
+                )}
+                {children}
+            </Content>
+        </Layout>
+    </Layout>
 );
 
 export default EpubLayout;
