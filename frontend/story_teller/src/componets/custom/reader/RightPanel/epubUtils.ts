@@ -19,12 +19,11 @@ export function readFile(
 }
 
 // Initializes the book and rendition and returns them
-export function initializeBookAndRendition(
-    buffer: ArrayBuffer,
-    container: HTMLDivElement
-): { book: Book; rendition: Rendition } {
+export function initializeBookAndRendition(buffer: ArrayBuffer, container: HTMLDivElement): { book: Book; rendition: Rendition } {
     const book = ePub(buffer);
     const rendition = book.renderTo(container, { width: "100%", height: "100%" });
+
     rendition.display();
+
     return { book, rendition };
 }
