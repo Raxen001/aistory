@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Tree } from "antd";
 
 export interface TocItem {
@@ -12,6 +12,7 @@ export interface TocItem {
 type Props = {
     toc: TocItem[];
     onSelect: (href: string) => void;
+    currentHref?: string;
 };
 
 function mapToTreeData(items: TocItem[]): any[] {
@@ -22,12 +23,19 @@ function mapToTreeData(items: TocItem[]): any[] {
     }));
 }
 
-const EpubTOC: React.FC<Props> = ({ toc, onSelect }) => {
+const EpubTOC: React.FC<Props> = ({ toc, onSelect, currentHref }) => {
+    const [selectedKey, setSelectedKey] = useState<string | undefined>(undefined);
     const treeData = mapToTreeData(toc);
+
+    useEffect(() => {
+        setSelectedKey(currentHref);
+    }, [currentHref]);
 
     const onSelectHandler = (selectedKeys: React.Key[]) => {
         if (selectedKeys.length === 0) return;
-        onSelect(String(selectedKeys[0]));
+        const key = String(selectedKeys[0]);
+        setSelectedKey(key);
+        onSelect(key);
     };
 
     return (
@@ -44,10 +52,11 @@ const EpubTOC: React.FC<Props> = ({ toc, onSelect }) => {
         >
             <Tree
                 showLine
+                selectable
                 defaultExpandAll
                 treeData={treeData}
+                selectedKeys={selectedKey ? [selectedKey] : []}
                 onSelect={onSelectHandler}
-                selectable
             />
         </div>
     );

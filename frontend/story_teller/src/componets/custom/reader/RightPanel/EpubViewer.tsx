@@ -1,9 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Book, Rendition, type NavItem } from "epubjs";
-import { setupKeyboardNavigation, updateNavigationControls } from "./epubNavigationConfig";
 import { readFile, initializeBookAndRendition } from "./epubUtils";
-import EpubNavigation from "./EpubNavigation";
-import EpubTOC from "./EpubTOC";
+import { setupKeyboardNavigation, updateNavigationControls } from "./epubNavigationConfig";
+import EpubLayout from "./EpubLayout";
 
 type Props = {
     file: File | null;
@@ -16,6 +15,7 @@ const EpubViewer: React.FC<Props> = ({ file }) => {
     const [rendition, setRendition] = useState<Rendition | null>(null);
     const [canPrev, setCanPrev] = useState(false);
     const [canNext, setCanNext] = useState(false);
+    const [currentHref, setCurrentHref] = useState<string>("");
 
     useEffect(() => {
         if (!file || !viewerRef.current) {
@@ -47,16 +47,27 @@ const EpubViewer: React.FC<Props> = ({ file }) => {
         };
     }, [file]);
 
-    const goNext = () => {
-        if (rendition && canNext) {
-            rendition.next();
+    useEffect(() => {
+        async function getTOC() {
+            if (book?.loaded?.navigation) {
+                try {
+                    const navigation = await book.loaded.navigation;
+                    setToc(navigation?.toc ?? []);
+                    console.log(navigation?.toc);
+                } catch (error) {
+                    console.error("Failed to load TOC:", error);
+                }
+            }
         }
+        getTOC();
+    }, [book]);
+
+    const goNext = () => {
+        if (rendition && canNext) rendition.next();
     };
 
     const goPrev = () => {
-        if (rendition && canPrev) {
-            rendition.prev();
-        }
+        if (rendition && canPrev) rendition.prev();
     };
 
     useEffect(() => {
@@ -68,65 +79,37 @@ const EpubViewer: React.FC<Props> = ({ file }) => {
     }, [canNext, canPrev, rendition]);
 
     useEffect(() => {
-        async function getTOC() {
-            if (book?.loaded?.navigation) {
-                try {
-                    const navigation = await book.loaded.navigation;
-                    setToc(navigation?.toc ?? []);
-                    // DEBUG: TOC
-                    console.log(navigation?.toc);
-                } catch (error) {
-                    console.error("Failed to load TOC:", error);
-                }
+        if (!rendition) return;
+
+        function handleRelocated(location: any) {
+            if (location && location.start && location.start.href) {
+                setCurrentHref(location.start.href);
             }
         }
-        getTOC();
-    }, [book]);
+        rendition.on("relocated", handleRelocated);
 
-    // TOC item selection handler to navigate rendition
+        return () => {
+            rendition.off("relocated", handleRelocated);
+        };
+    }, [rendition]);
+
     const handleTocSelect = (href: string) => {
         rendition?.display(href);
     };
 
-    return (
-        <div
-            style={{
-                marginTop: 24,
-                background: "#fff",
-                borderRadius: 8,
-                padding: 16,
-                height: "100%",
-                overflow: "hidden",
-                display: "flex",
-                flexDirection: "row",
-                flexGrow: 1,
-            }}
-        >
-            {/* Left: Table of Contents */}
-            <div style={{ width: 280, borderRight: "1px solid #ddd" }}>
-                {toc && <EpubTOC toc={toc} onSelect={handleTocSelect} />}
-            </div>
 
-            {/* Right: Viewer + Navigation */}
-            <div
-                style={{
-                    flexGrow: 1,
-                    display: "flex",
-                    flexDirection: "column",
-                    overflow: "auto",
-                    paddingLeft: 16,
-                }}
-            >
-                {file ? (
-                    <>
-                        <div ref={viewerRef} style={{ flexGrow: 1 }} />
-                        <EpubNavigation onPrev={goPrev} onNext={goNext} canPrev={canPrev} canNext={canNext} />
-                    </>
-                ) : (
-                    <div>No EPUB uploaded.</div>
-                )}
-            </div>
-        </div>
+    return (
+        <EpubLayout
+            toc={toc}
+            onTocSelect={handleTocSelect}
+            canPrev={canPrev}
+            canNext={canNext}
+            onPrev={goPrev}
+            onNext={goNext}
+            viewerRef={viewerRef}
+            fileLoaded={!!file}
+            currentHref={currentHref}
+        />
     );
 };
 
