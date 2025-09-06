@@ -6,9 +6,11 @@ ENV PATH="$PNPM_HOME:$PATH"
 RUN corepack enable
 
 WORKDIR /app/
-COPY . .
+COPY ./package.json /app/
 
 RUN pnpm install -r
+
+COPY . .
 RUN pnpm run build
  
 # Production Stage
