@@ -5,8 +5,8 @@ ENV PATH="$PNPM_HOME:$PATH"
 RUN corepack enable
 
 WORKDIR /app/
-COPY pnpm-lock.yaml /app/
-RUN pnpm fetch --prod
+COPY ./package.json /app/
+RUN pnpm install -r
 
 COPY . /app/
 EXPOSE 8000
