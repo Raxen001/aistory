@@ -5,7 +5,7 @@ project_dir=$HOME/Code/projects/voxabook/
 cd "$project_dir"/backend/
 zellij run --name "backend" -- zsh -ic "pnpm run dev";
 
-cd "$project_dir"/frontend/story_teller/
+cd "$project_dir"/frontend/
 zellij run --name "frontend" -- zsh -ic "pnpm run dev";
 
 cd "$project_dir"

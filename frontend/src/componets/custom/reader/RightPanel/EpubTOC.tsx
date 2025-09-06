@@ -17,6 +17,7 @@ type Props = {
 
 function mapToTreeData(items: TocItem[]): any[] {
     return items.map(({ id, label, href, subitems }) => ({
+        id: id,
         key: href,
         title: label,
         children: subitems && subitems.length > 0 ? mapToTreeData(subitems) : undefined,

@@ -1,4 +1,5 @@
 mongodb/
+./frontend/dist/
 ### NextJS ###
 # dependencies
 /node_modules

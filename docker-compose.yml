@@ -1,5 +1,18 @@
 services:
 
+  backend:
+    build:
+      context: ./backend/
+    ports:
+      - "3000:3000"
+
+  frontend:
+    build:
+      context: ./frontend/
+      target: production
+    ports:
+      - "8080:80"
+
   mongodb:
     image: mongo:8.0.10-noble
     environment:
