@@ -20,7 +20,7 @@ const PrivateRoute = ({ children }: { children: React.JSX.Element }) => {
     }
 
     if (!userId) {
-        return <Navigate to="/sign-in" replace />;
+        return <RedirectToSignIn />;
     }
 
     return children;
