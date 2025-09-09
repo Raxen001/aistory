@@ -10,6 +10,7 @@ type Props = {
 
 const EpubViewer: React.FC<Props> = ({ file }) => {
     const viewerRef = useRef<HTMLDivElement>(null);
+    const renditionRef = useRef<Rendition | null>(null);
     const [book, setBook] = useState<Book | null>(null);
     const [toc, setToc] = useState<NavItem[] | null>(null);
     const [rendition, setRendition] = useState<Rendition | null>(null);
@@ -19,18 +20,27 @@ const EpubViewer: React.FC<Props> = ({ file }) => {
 
     useEffect(() => {
         if (!file || !viewerRef.current) {
-            rendition?.destroy();
+            renditionRef.current?.destroy();
+            renditionRef.current = null;
             setBook(null);
             setRendition(null);
             setToc(null);
             return;
         }
+
+        renditionRef.current?.destroy();
+        renditionRef.current = null;
+
         readFile(
             file,
             (buffer) => {
                 const { book: newBook, rendition: newRendition } = initializeBookAndRendition(buffer, viewerRef.current!);
+
                 newRendition.on("rendered", () => updateNavigationControls(newRendition, setCanPrev, setCanNext));
                 newRendition.on("relocated", () => updateNavigationControls(newRendition, setCanPrev, setCanNext));
+
+                renditionRef.current = newRendition;
+
                 setBook(newBook);
                 setRendition(newRendition);
                 updateNavigationControls(newRendition, setCanPrev, setCanNext);
@@ -39,8 +49,10 @@ const EpubViewer: React.FC<Props> = ({ file }) => {
                 console.error("Error reading EPUB file", error);
             }
         );
+
         return () => {
-            rendition?.destroy();
+            renditionRef.current?.destroy();
+            renditionRef.current = null;
             setBook(null);
             setRendition(null);
             setToc(null);
@@ -53,17 +65,18 @@ const EpubViewer: React.FC<Props> = ({ file }) => {
                 try {
                     const navigation = await book.loaded.navigation;
                     setToc(navigation?.toc ?? []);
-                    console.log(navigation?.toc);
                 } catch (error) {
                     console.error("Failed to load TOC:", error);
                 }
             }
         }
+
         getTOC();
     }, [book]);
 
     const goNext = () => {
         if (rendition && canNext) rendition.next();
+        console.log(rendition?.getContents());
     };
 
     const goPrev = () => {
@@ -79,13 +92,16 @@ const EpubViewer: React.FC<Props> = ({ file }) => {
     }, [canNext, canPrev, rendition]);
 
     useEffect(() => {
-        if (!rendition) return;
+        if (!rendition) {
+            return
+        };
 
         function handleRelocated(location: any) {
             if (location && location.start && location.start.href) {
                 setCurrentHref(location.start.href);
             }
         }
+
         rendition.on("relocated", handleRelocated);
 
         return () => {
@@ -96,7 +112,6 @@ const EpubViewer: React.FC<Props> = ({ file }) => {
     const handleTocSelect = (href: string) => {
         rendition?.display(href);
     };
-
 
     return (
         <EpubLayout
