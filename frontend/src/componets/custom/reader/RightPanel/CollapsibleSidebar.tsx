@@ -17,20 +17,18 @@ const CollapsibleSidebar: React.FC<Props> = ({ toc, onTocSelect, currentHref }) 
         <Sider
             collapsible
             collapsed={collapsed}
-            onCollapse={(value) => setCollapsed(value)}
+            onCollapse={setCollapsed}
             width={280}
             style={{
                 backgroundColor: "#fafafa",
-                color: "white",
                 borderRight: "1px solid #ddd",
                 boxSizing: "border-box",
                 height: "100vh",
                 overflowY: "auto",
+                color: "white",
             }}
         >
-            {toc && !collapsed && (
-                <EpubTOC toc={toc} onSelect={onTocSelect} currentHref={currentHref} />
-            )}
+            {!collapsed && toc && <EpubTOC toc={toc} onSelect={onTocSelect} currentHref={currentHref} />}
         </Sider>
     );
 };
