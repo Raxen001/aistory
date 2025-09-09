@@ -8,4 +8,7 @@ services:
     ports:
       - 27017:27017
     volumes: 
-      - ./mongodb:/data/db
+      - voxa_data:/data/db
+
+volumes:
+  voxa_data:
