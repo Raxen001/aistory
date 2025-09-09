@@ -11,6 +11,7 @@ export function useKeyboardNavigation(
     useEffect(() => {
         const handler = setupKeyboardNavigation({ goNext, goPrev });
         window.addEventListener("keydown", handler);
+
         return () => {
             window.removeEventListener("keydown", handler);
         };

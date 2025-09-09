@@ -18,6 +18,7 @@ export function useEpubBook(file: File | null, viewerRef: React.RefObject<HTMLDi
             setRendition(null);
             setCanPrev(false);
             setCanNext(false);
+
             return;
         }
 

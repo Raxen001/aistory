@@ -33,7 +33,10 @@ const EpubTOC: React.FC<Props> = ({ toc, onSelect, currentHref }) => {
     }, [currentHref]);
 
     const onSelectHandler = (selectedKeys: React.Key[]) => {
-        if (selectedKeys.length === 0) return;
+        if (selectedKeys.length === 0) {
+            return;
+        }
+
         const key = String(selectedKeys[0]);
         setSelectedKey(key);
         onSelect(key);

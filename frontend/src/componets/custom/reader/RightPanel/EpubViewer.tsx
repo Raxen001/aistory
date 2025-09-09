@@ -17,11 +17,15 @@ const EpubViewer: React.FC<Props> = ({ file }) => {
     const currentHref = useCurrentHref(rendition);
 
     const goNext = () => {
-        if (rendition && canNext) rendition.next();
+        if (rendition && canNext) {
+            rendition.next();
+        }
     };
 
     const goPrev = () => {
-        if (rendition && canPrev) rendition.prev();
+        if (rendition && canPrev) {
+            rendition.prev();
+        }
     };
 
     useKeyboardNavigation(goNext, goPrev, canNext, canPrev, rendition);

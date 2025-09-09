@@ -5,7 +5,9 @@ export function useCurrentHref(rendition: Rendition | null) {
     const [currentHref, setCurrentHref] = useState<string>("");
 
     useEffect(() => {
-        if (!rendition) return;
+        if (!rendition) {
+            return
+        };
 
         function onRelocated(location: any) {
             if (location?.start?.href) {
