@@ -14,7 +14,8 @@ async function appController(req) {
     const bookId = req?.body?.bookId
 
     const userInputText = req?.body?.userText
-    const concisedTextObj = await conciserService.conciseThisText(userInputText)
+
+    const concisedTextObj = await conciserService.conciseThisText()
     console.log('[LOG]: concisedTextObj> ')
     console.log(concisedTextObj)
     const imagePathObj = {
