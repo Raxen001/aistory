@@ -3,7 +3,7 @@ import { Book, Rendition } from "epubjs";
 import { readFile, initializeBookAndRendition } from "../utils/epubUtils.ts";
 import { updateNavigationControls } from "../utils/epubNavigationConfig.ts";
 
-export function useEpubBook(file: File | null, viewerRef: React.RefObject<HTMLDivElement> | null) {
+export function useEpubBook(file: File | null, viewerRef: React.RefObject<HTMLDivElement|null> ) {
     const renditionRef = useRef<Rendition | null>(null);
     const [book, setBook] = useState<Book | null>(null);
     const [rendition, setRendition] = useState<Rendition | null>(null);
