@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 import { Book, Rendition } from "epubjs";
-import { readFile, initializeBookAndRendition } from "../utils/epubUtils";
-import { updateNavigationControls } from "../utils/epubNavigationConfig";
+import { readFile, initializeBookAndRendition } from "../utils/epubUtils.ts";
+import { updateNavigationControls } from "../utils/epubNavigationConfig.ts";
 
-export function useEpubBook(file: File | null, viewerRef: React.RefObject<HTMLDivElement>) {
+export function useEpubBook(file: File | null, viewerRef: React.RefObject<HTMLDivElement> | null) {
     const renditionRef = useRef<Rendition | null>(null);
     const [book, setBook] = useState<Book | null>(null);
     const [rendition, setRendition] = useState<Rendition | null>(null);
@@ -11,7 +11,7 @@ export function useEpubBook(file: File | null, viewerRef: React.RefObject<HTMLDi
     const [canNext, setCanNext] = useState(false);
 
     useEffect(() => {
-        if (!file || !viewerRef.current) {
+        if (!file || !viewerRef || !viewerRef.current) {
             renditionRef.current?.destroy();
             renditionRef.current = null;
             setBook(null);

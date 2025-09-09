@@ -5,6 +5,17 @@ export type NavigationHandlers = {
     goPrev: () => void;
 };
 
+// TODO: sepearte keybinding into a separate settings.json and read from there.
+// instead of hardocidng "ArrowRight" & "PageDown"
+// Something like next_key_1 and next_key_2 in the json object with 'keyboard' as
+// key.
+// {
+//  'key': {
+//      "next_key_1": "ArrowRight",
+//      "next_key_2": "PageDown"
+//      ...
+//  }
+// }
 export function setupKeyboardNavigation(handlers: NavigationHandlers): (event: KeyboardEvent) => void {
     return (event: KeyboardEvent) => {
         switch (event.key) {

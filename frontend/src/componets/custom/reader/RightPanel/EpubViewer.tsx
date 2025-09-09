@@ -1,5 +1,4 @@
 import React, { useRef } from "react";
-// import { NavItem } from "epubjs";
 import EpubLayout from "./EpubLayout";
 import { useEpubBook } from "./hooks/useEpubBook";
 import { useEpubTOC } from "./hooks/useEpubTOC";
