@@ -25,3 +25,7 @@ particular character obj. If not set one.
 
 
 
+## TODO
+
+Epub with toc file not in toc.xhtml will not work properly even though the
+library should look for toc.html or something else.
