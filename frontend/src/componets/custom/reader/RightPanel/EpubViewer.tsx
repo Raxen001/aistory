@@ -11,7 +11,6 @@ type Props = {
 
 const EpubViewer: React.FC<Props> = ({ file }) => {
     const viewerRef = useRef<HTMLDivElement>(null);
-
     const { book, rendition, canPrev, canNext } = useEpubBook(file, viewerRef);
     const toc = useEpubTOC(book);
     const currentHref = useCurrentHref(rendition);

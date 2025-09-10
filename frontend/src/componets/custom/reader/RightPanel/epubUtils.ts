@@ -1,6 +1,5 @@
 import ePub, { Book, Rendition } from "epubjs";
 
-// Reads the EPUB file as ArrayBuffer
 export function readFile(
     file: File,
     onLoad: (buffer: ArrayBuffer) => void,
@@ -18,7 +17,6 @@ export function readFile(
     reader.readAsArrayBuffer(file);
 }
 
-// Initializes the book and rendition and returns them
 export function initializeBookAndRendition(buffer: ArrayBuffer, container: HTMLDivElement): { book: Book; rendition: Rendition } {
     const book = ePub(buffer);
     const rendition = book.renderTo(container, { width: "100%", height: "100%" });

@@ -1,4 +1,5 @@
 import ePub, { Book, Rendition } from "epubjs";
+import 'foliate-js/view.js'
 
 export function readFile(
     file: File,
@@ -23,6 +24,8 @@ export function initializeBookAndRendition(
 ): { book: Book; rendition: Rendition } {
     const book = ePub(buffer);
     const rendition = book.renderTo(container, { width: "100%", height: "100%" });
+
     rendition.display();
+
     return { book, rendition };
 }
