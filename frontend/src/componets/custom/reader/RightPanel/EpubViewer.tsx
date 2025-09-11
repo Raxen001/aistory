@@ -14,6 +14,7 @@ const EpubViewer: React.FC<Props> = ({ file }) => {
     const { book, rendition, canPrev, canNext } = useEpubBook(file, viewerRef);
     const toc = useEpubTOC(book);
     const currentHref = useCurrentHref(rendition);
+    
 
     const goNext = () => {
         if (rendition && canNext) {
