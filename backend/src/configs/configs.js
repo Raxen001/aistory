@@ -11,6 +11,7 @@ const config = {
     R2_SECRET_ACCESS_KEY: process.env.R2_SECRET_ACCESS_KEY,
     R2_ENDPOINT: process.env.R2_ENDPOINT,
     R2_BUCKET: process.env.R2_BUCKET,
+    GRPC_URL : process.env.GRPC_URL
 }
 
 if (process.env.NODE_ENV == 'production') {
