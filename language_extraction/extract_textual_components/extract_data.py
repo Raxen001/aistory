@@ -49,7 +49,6 @@ def main():
         prompt_description=prompt,
         examples=examples,
         model_id="gemini-2.5-flash",
-        api_key="AIzaSyAJ9kmkm25U0Q6Ch20-K61A6puB202TP6M",
     )
     lx.io.save_annotated_documents(
         [result], output_name="extraction_results.jsonl", output_dir="../output/"
