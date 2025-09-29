@@ -1,8 +1,11 @@
 import langextract
+from langextract.core.data import AnnotatedDocument
 import textwrap
+from pprint import pprint
 
+import util
 
-def extract_characters(input_text):
+class Extract_characters:
     PROMPT = textwrap.dedent(
         """\
         Extract 
@@ -10,7 +13,7 @@ def extract_characters(input_text):
           - Character description 
           - Setting in which the text takes place in
           - Time of the day/night/evening/afternoon
-          - Concise of the story
+          - Summary of the story
         present in this text.
         Use exact character names.
         """
@@ -45,63 +48,85 @@ def extract_characters(input_text):
         """
     )
 
-    EXAMPLES = [
-        langextract.data.ExampleData(
-            text=EXAMPLE_TEXT,
-            extractions=[
-                langextract.data.Extraction(
-                    extraction_class="character_name",
-                    extraction_text="Bronwyn",
-                ),
-                langextract.data.Extraction(
-                    extraction_class="character_name",
-                    extraction_text="Simon Kelleher",
-                    attributes={
-                        "alias": ["simon"]
-                    }
-                ),
-                langextract.data.Extraction(
-                    extraction_class="character_name",
-                    extraction_text="Reggie Crawley",
-                ),
-                langextract.data.Extraction(
-                    extraction_class="setting",
-                    extraction_text="Bayview High School hallway and nearby locker area",
-                ),
-                langextract.data.Extraction(
-                    extraction_class="time",
-                    extraction_text="Monday, September 24, 2:55 p.m.",
-                ),
-                langextract.data.Extraction(
-                    extraction_class="summary",
-                    extraction_text="Bronwyn is caught reading an infamous school gossip app by its creator, Simon, who relishes the chaos his updates cause; school rumors and scandals are discussed, exposing the stressful social environment at Bayview High as students move through their day.",
-                ),
-            ],
+    CHAR_NAME = "character_name"
+    SETTING = "setting"
+    TIME = "time"
+    SUMMARY = "summary"
+
+    def __init__(self, input_text: str, model: str = "gemini-2.5-flash"):
+        self.input_text = input_text
+        self.model = model
+
+    def extract(self):
+        examples = [
+            langextract.data.ExampleData(
+                text=EXAMPLE_TEXT,
+                extractions=[
+                    langextract.data.Extraction(
+                        extraction_class=self.CHAR_NAME,
+                        extraction_text="Bronwyn",
+                    ),
+                    langextract.data.Extraction(
+                        extraction_class=self.CHAR_NAME,
+                        extraction_text="Simon Kelleher",
+                        attributes={"alias": ["simon"]},
+                    ),
+                    langextract.data.Extraction(
+                        extraction_class=self.CHAR_NAME,
+                        extraction_text="Reggie Crawley",
+                    ),
+                    langextract.data.Extraction(
+                        extraction_class=self.SETTING,
+                        extraction_text="Bayview High School hallway and nearby locker area",
+                    ),
+                    langextract.data.Extraction(
+                        extraction_class=self.TIME,
+                        extraction_text="Monday, September 24, 2:55 p.m.",
+                    ),
+                    langextract.data.Extraction(
+                        extraction_class=self.SUMMARY,
+                        extraction_text="Bronwyn is caught reading an infamous school gossip app by its creator, Simon, who relishes the chaos his updates cause; school rumors and scandals are discussed, exposing the stressful social environment at Bayview High as students move through their day.",
+                    ),
+                ],
+            )
+        ]
+
+        result = langextract.extract(
+            text_or_documents=self.input_text,
+            prompt_description=self.PROMPT,
+            examples=examples,
+            model_id=self.model,
         )
-    ]
 
-    result = langextract.extract(
-        text_or_documents=input_text,
-        prompt_description=PROMPT,
-        examples=EXAMPLES,
-        model_id="gemini-2.5-flash",
-    )
+        return result
 
-    return result
+    def convert_to_json(self, annotated_doc: AnnotatedDocument):
+        data = {}
 
+        for extraction in annotated_doc.extractions:
+            match extraction.extraction_class:
+                case self.CHAR_NAME:
+                    util.get_characters(extraction, data)
+                case self.SETTING:
+                    util.get_setting(extraction, data)
+                case self.TIME:
+                    util.get_time(extraction, data)
+                case self.SUMMARY:
+                    util.get_summary(extraction, data)
 
-def write_jsonl(annotated_doc):
-    langextract.io.save_annotated_documents(
-        [annotated_doc], output_name="conciser.jsonl", output_dir="../output/"
-    )
+        return data
 
-    html_content = langextract.visualize("../output/conciser.jsonl")
-    with open("../output/visualization.html", "w") as f:
-        if hasattr(html_content, "data"):
-            f.write(html_content.data)
-        else:
-            f.write(html_content)
+    def write_jsonl(self, annotated_doc: AnnotatedDocument):
+        langextract.io.save_annotated_documents(
+            [annotated_doc], output_name="conciser.jsonl", output_dir="../output/"
+        )
 
+        html_content = langextract.visualize("../output/conciser.jsonl")
+        with open("../output/visualization.html", "w") as f:
+            if hasattr(html_content, "data"):
+                f.write(html_content.data)
+            else:
+                f.write(html_content)
 
 
 if __name__ == "__main__":
@@ -135,6 +160,12 @@ if __name__ == "__main__":
         """
     )
 
-    annotated_doc = extract_characters(EXAMPLE_TEXT)
-    print(annotated_doc)
-    write_jsonl(annotated_doc)
+    ex = Extract_characters(EXAMPLE_TEXT)
+    annotated_doc = ex.extract()
+
+    print("FUCK:")
+    for e in annotated_doc.extractions:
+        pprint(e)
+    print("")
+
+    ex.write_jsonl(annotated_doc)

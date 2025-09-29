@@ -1,5 +1,10 @@
-# NOTES
+## TODO
 
+- [ ] ready the proto
+    - [ ] ready the GRPC server
+- [ ] Epub with toc file not in toc.xhtml is not working
+
+# NOTES
 
 Concise text should return a JSON.
 ```json
@@ -24,8 +29,13 @@ pattern matching or some sort matching to combat ai hallucinations.
 particular character obj. If not set one.
 
 
+## GRPC
 
-## TODO
+- server should send the concise data. 
+    - data should contain
+        - List of characters
+            - character name, aliases, profile. 
+        - setting
+        - time
+        - summary
 
-Epub with toc file not in toc.xhtml will not work properly even though the
-library should look for toc.html or something else.
