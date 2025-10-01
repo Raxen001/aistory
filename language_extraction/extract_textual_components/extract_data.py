@@ -1,9 +1,10 @@
 import langextract
 from langextract.core.data import AnnotatedDocument
 import textwrap
+import util
+import json
 from pprint import pprint
 
-import util
 
 class Extract_characters:
     PROMPT = textwrap.dedent(
@@ -48,7 +49,14 @@ class Extract_characters:
         """
     )
 
-    CHAR_NAME = "character_name"
+    CHARACTERS_OBJ = "characters"
+    CHARACTER_NAME = "name"
+    CHARACTER_ALIAS = "alias"
+
+    POS = "pos"
+    VAL_KEY = "val"
+    START_POS = "start_pos"
+    END_POS = "end_pos"
     SETTING = "setting"
     TIME = "time"
     SUMMARY = "summary"
@@ -63,16 +71,16 @@ class Extract_characters:
                 text=EXAMPLE_TEXT,
                 extractions=[
                     langextract.data.Extraction(
-                        extraction_class=self.CHAR_NAME,
+                        extraction_class=self.CHARACTER_NAME,
                         extraction_text="Bronwyn",
                     ),
                     langextract.data.Extraction(
-                        extraction_class=self.CHAR_NAME,
+                        extraction_class=self.CHARACTER_NAME,
                         extraction_text="Simon Kelleher",
                         attributes={"alias": ["simon"]},
                     ),
                     langextract.data.Extraction(
-                        extraction_class=self.CHAR_NAME,
+                        extraction_class=self.CHARACTER_NAME,
                         extraction_text="Reggie Crawley",
                     ),
                     langextract.data.Extraction(
@@ -105,7 +113,7 @@ class Extract_characters:
 
         for extraction in annotated_doc.extractions:
             match extraction.extraction_class:
-                case self.CHAR_NAME:
+                case self.CHARACTER_NAME:
                     util.get_characters(extraction, data)
                 case self.SETTING:
                     util.get_setting(extraction, data)
@@ -114,7 +122,16 @@ class Extract_characters:
                 case self.SUMMARY:
                     util.get_summary(extraction, data)
 
-        return data
+        try:
+            json_data = json.dumps(data)
+            with open('../output/sample.json', 'w') as f:
+                json.dump(data, f)
+            return json_data
+        # add error handling
+        except TypeError:
+            print(type(data))
+            pprint(data)
+            return "Error parsing data"
 
     def write_jsonl(self, annotated_doc: AnnotatedDocument):
         langextract.io.save_annotated_documents(
@@ -133,9 +150,7 @@ if __name__ == "__main__":
 
     EXAMPLE_TEXT = textwrap.dedent(
         """\
-        Chapter One
-        Bronwyn
-        Monday, September 24, 2:55 p.m.
+        Chapter One Bronwyn Monday, September 24, 2:55 p.m.
         A sex tape. A pregnancy scare. Two cheating scandals. And that’s just this
         week’s update. If all you knew of Bayview High was Simon Kelleher’s
         gossip app, you’d wonder how anyone found time to go to class.
@@ -162,10 +177,6 @@ if __name__ == "__main__":
 
     ex = Extract_characters(EXAMPLE_TEXT)
     annotated_doc = ex.extract()
-
-    print("FUCK:")
-    for e in annotated_doc.extractions:
-        pprint(e)
-    print("")
-
-    ex.write_jsonl(annotated_doc)
+    json_obj = ex.convert_to_json(annotated_doc)
+    print(json_obj)
+    # ex.write_jsonl(annotated_doc)
