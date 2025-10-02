@@ -2,7 +2,7 @@ services:
 
   voxabook_api:
     build:
-      context: ./backend/
+      context: ./backend/rest_endpoint/
     ports:
       - "3000:3000"
 

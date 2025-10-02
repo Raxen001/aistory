@@ -1,0 +1,44 @@
+syntax = "proto3";
+
+package lang_extract_proto.v1;
+
+service LangExtractService {
+  rpc ExtractedData (SayHelloRequest) returns (ExtractedDataResponse) {}
+}
+
+message SayHelloRequest {
+  string name = 1;
+}
+
+// Response data
+message ExtractedDataResponse {
+  Character character = 1;
+  Setting setting = 2;
+  Time time = 3;
+  Summary summary = 4;
+}
+
+message Character {
+  map<string, CharacterDetails> character = 1;
+
+}
+
+message Setting {
+
+}
+
+message Time {
+
+}
+
+message Summary {
+
+}
+
+message CharacterDetails{
+
+}
+
+message Position{
+
+}

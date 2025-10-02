@@ -1,2 +1,2 @@
 import extract_textual_components
-import server
+import grpc_server

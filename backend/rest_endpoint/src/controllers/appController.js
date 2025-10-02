@@ -1,5 +1,9 @@
 import { GenerateImagesResponse } from '@google/genai'
-import { conciserService, imageGenService, charImageGenService } from '../services/index.js'
+import {
+    conciserService,
+    imageGenService,
+    charImageGenService,
+} from '../services/index.js'
 import {
     createBookData,
     checkIfBookExists,
@@ -10,18 +14,19 @@ async function appController(req) {
     // TODO:
     // assuming book name.
     const bookName = 'Something'
-
     const bookId = req?.body?.bookId
-
     const userInputText = req?.body?.userText
 
-    const concisedTextObj = await conciserService.conciseThisText()
-    console.log('[LOG]: concisedTextObj> ')
+    const concisedTextObj = await conciserService.conciseThisText(userInputText)
+    console.log('[LOG]: concisedTextObj: ')
     console.log(concisedTextObj)
-    const imagePathObj = {
-        imagePath: await imageGenService.getImagePath(concisedTextObj),
-    }
+    return { concisedTextObj }
 
+    const imagePathObj = {
+        // DEBUG:
+        // imagePath: await imageGenService.getImagePath(concisedTextObj),
+        imagePath: 'https://example.com',
+    }
 
     const book = await getBookDataOrCreateBookData(
         bookId,
@@ -41,7 +46,9 @@ async function appController(req) {
 
 async function getBookDataOrCreateBookData(bookId, bookName, concisedTextObj) {
     const ifBookExists = await checkIfBookExists(bookId)
-    const characterList = await generateCharacterImage(concisedTextObj.characterList)
+    const characterList = await generateCharacterImage(
+        concisedTextObj.characterList
+    )
 
     if (!ifBookExists) {
         const book = await createBookData(
@@ -67,7 +74,9 @@ async function generateCharacterImage(characterList) {
             continue
         }
 
-        character['imageUrl'] = await charImageGenService.getImagePath(character['personName'], character['personDescription'])
+        // DEBUG:
+        // character['imageUrl'] = await charImageGenService.getImagePath(character['personName'], character['personDescription'])
+        character['imageUrl'] = 'https://example.com'
     }
 
     return characterList

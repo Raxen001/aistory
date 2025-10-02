@@ -8,12 +8,12 @@ type Props = {
     canNext: boolean;
 };
 
-const EpubNavigation: React.FC<Props> = ({ onPrev, onNext, canPrev, canNext }) => (
+const EpubNavigation: React.FC<Props> = (Props) => (
     <Space style={{ marginTop: 12 }}>
-        <Button onClick={onPrev} disabled={!canPrev}>
+        <Button onClick={Props.onPrev} disabled={!Props.canPrev}>
             Previous
         </Button>
-        <Button onClick={onNext} disabled={!canNext}>
+        <Button onClick={Props.onNext} disabled={!Props.canNext}>
             Next
         </Button>
     </Space>

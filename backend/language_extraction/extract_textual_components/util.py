@@ -4,14 +4,21 @@ from extract_data import Extract_characters as ec
 
 def get_characters(extraction: Extraction, data):
     character_dict = data.setdefault(ec.CHARACTERS_OBJ, {})
-    character = character_dict.setdefault(extraction.extraction_text, {})
-    # sets the character name initially and doesn't change it afterwards
-    character.setdefault(ec.CHARACTER_NAME, extraction.extraction_text)
+    # check if character Alias match.
+    # if not then use a new character object
+    for key, val in character_dict.items():
+        if val and val.get(ec.CHARACTER_ALIAS, False) and extraction.extraction_text in val[ec.CHARACTER_ALIAS]:
+            character = val
+            break
+    else:
+        character = character_dict.setdefault(extraction.extraction_text, {})
 
+    character.setdefault(ec.CHARACTER_NAME, extraction.extraction_text)
     add_pos_data(extraction, character)
 
+    aliases = character.setdefault(ec.CHARACTER_ALIAS, [])
     if extraction.attributes:
-        character.setdefault(ec.CHARACTER_ALIAS, []).append(
+        aliases.extend(
             extraction.attributes[ec.CHARACTER_ALIAS]
         )
 
@@ -30,6 +37,7 @@ def get_setting(extraction: Extraction, data):
 def get_time(extraction: Extraction, data):
     time = data.setdefault(ec.TIME, {})
     time.setdefault(ec.VAL_KEY, extraction.extraction_text)
+    add_pos_data(extraction, time)
 
 
 def get_summary(extraction: Extraction, data):

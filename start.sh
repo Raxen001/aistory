@@ -2,7 +2,7 @@
 
 project_dir=$HOME/Code/projects/voxabook/
 
-cd "$project_dir"/backend/
+cd "$project_dir"/backend/rest_endpoint
 zellij run --name "backend" -- zsh -ic "pnpm run dev";
 
 cd "$project_dir"/frontend/

@@ -1,1 +1,0 @@
-import extract_textual_components.data
