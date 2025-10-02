@@ -6,7 +6,7 @@ import json
 from pprint import pprint
 
 
-class Extract_characters:
+class Extract_details:
     PROMPT = textwrap.dedent(
         """\
         Extract 
@@ -108,7 +108,7 @@ class Extract_characters:
 
         return result
 
-    def convert_to_json(self, annotated_doc: AnnotatedDocument):
+    def ready_response(self, annotated_doc: AnnotatedDocument):
         data = {}
 
         for extraction in annotated_doc.extractions:
@@ -122,28 +122,7 @@ class Extract_characters:
                 case self.SUMMARY:
                     util.get_summary(extraction, data)
 
-        try:
-            json_data = json.dumps(data)
-            with open('../output/sample.json', 'w') as f:
-                json.dump(data, f)
-            return json_data
-        # add error handling
-        except TypeError:
-            print(type(data))
-            pprint(data)
-            return "Error parsing data"
-
-    def write_jsonl(self, annotated_doc: AnnotatedDocument):
-        langextract.io.save_annotated_documents(
-            [annotated_doc], output_name="conciser.jsonl", output_dir="../output/"
-        )
-
-        html_content = langextract.visualize("../output/conciser.jsonl")
-        with open("../output/visualization.html", "w") as f:
-            if hasattr(html_content, "data"):
-                f.write(html_content.data)
-            else:
-                f.write(html_content)
+        return data
 
 
 if __name__ == "__main__":
@@ -175,8 +154,8 @@ if __name__ == "__main__":
         """
     )
 
-    ex = Extract_characters(EXAMPLE_TEXT)
+    ex = Extract_details(EXAMPLE_TEXT)
     annotated_doc = ex.extract()
-    json_obj = ex.convert_to_json(annotated_doc)
+    json_obj = ex.ready_response(annotated_doc)
     print(json_obj)
     # ex.write_jsonl(annotated_doc)

@@ -1,5 +1,5 @@
 from langextract.core.data import Extraction
-from extract_data import Extract_characters as ec
+from extract_data import Extract_details as ec
 
 
 def get_characters(extraction: Extraction, data):
