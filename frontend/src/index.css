@@ -10,24 +10,23 @@ html, body {
 :root {
   height: 100%;
   margin: 0;
-  padding: 0;
+  padding: 0.3em;
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
-
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
-  background: rgb(23, 23, 26);
+  background: rgb(0, 0, 0);
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   --radius: 0.625rem;
-  --background: oklch(26.9%, 0%, 89.876%);
+  --background: #000000;
   --foreground: oklch(100% 0.00011 271.152);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.147 0.004 49.25);
+  --card: #262626;
+  --card-foreground: oklch(100% 0.00011 271.152);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.147 0.004 49.25);
   --primary: oklch(0.216 0.006 56.043);
@@ -39,7 +38,7 @@ html, body {
   --accent: oklch(0.97 0.001 106.424);
   --accent-foreground: oklch(0.216 0.006 56.043);
   --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.923 0.003 48.717);
+  --border: oklch(0% 0 0);
   --input: oklch(0.923 0.003 48.717);
   --ring: oklch(0.709 0.01 56.259);
   --chart-1: oklch(0.646 0.222 41.116);
