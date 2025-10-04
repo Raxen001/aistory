@@ -3,7 +3,7 @@ syntax = "proto3";
 package lang_extract_proto.v1;
 
 service LangExtractService {
-  rpc ExtractedData (SayHelloRequest) returns (ExtractedDataResponse) {}
+  rpc ExtractedData(SayHelloRequest) returns (ExtractedDataResponse) {}
 }
 
 message SayHelloRequest {
@@ -12,33 +12,36 @@ message SayHelloRequest {
 
 // Response data
 message ExtractedDataResponse {
-  Character character = 1;
+  Characters characters = 1;
   Setting setting = 2;
   Time time = 3;
   Summary summary = 4;
 }
 
-message Character {
-  map<string, CharacterDetails> character = 1;
+message Characters {
+  map<string, Character> characters = 1;
+}
 
+message Character {
+  string name = 1;
+  repeated string alias = 2;
+  repeated Position pos = 3;
 }
 
 message Setting {
-
+  string val = 1;
 }
 
 message Time {
-
+  string val = 1;
+  repeated Position pos = 2;
 }
 
 message Summary {
-
+  string val = 1;
 }
 
-message CharacterDetails{
-
-}
-
-message Position{
-
+message Position {
+  int32 start_pos = 1;
+  int32 end_pos = 2;
 }
