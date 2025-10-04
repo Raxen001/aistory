@@ -1,13 +1,16 @@
 from langextract.core.data import Extraction
-from extract_data import Extract_details as ec
 
 
-def get_characters(extraction: Extraction, data):
+def get_characters(ec, extraction: Extraction, data):
     character_dict = data.setdefault(ec.CHARACTERS_OBJ, {})
     # check if character Alias match.
     # if not then use a new character object
     for key, val in character_dict.items():
-        if val and val.get(ec.CHARACTER_ALIAS, False) and extraction.extraction_text in val[ec.CHARACTER_ALIAS]:
+        if (
+            val
+            and val.get(ec.CHARACTER_ALIAS, False)
+            and extraction.extraction_text in val[ec.CHARACTER_ALIAS]
+        ):
             character = val
             break
     else:
@@ -18,9 +21,7 @@ def get_characters(extraction: Extraction, data):
 
     aliases = character.setdefault(ec.CHARACTER_ALIAS, [])
     if extraction.attributes:
-        aliases.extend(
-            extraction.attributes[ec.CHARACTER_ALIAS]
-        )
+        aliases.extend(extraction.attributes[ec.CHARACTER_ALIAS])
 
 
 # TODO:

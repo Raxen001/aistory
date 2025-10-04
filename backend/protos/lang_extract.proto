@@ -3,11 +3,11 @@ syntax = "proto3";
 package lang_extract_proto.v1;
 
 service LangExtractService {
-  rpc ExtractedData(SayHelloRequest) returns (ExtractedDataResponse) {}
+  rpc ExtractedData(ExtractedDataRequest) returns (ExtractedDataResponse) {}
 }
 
-message SayHelloRequest {
-  string name = 1;
+message ExtractedDataRequest {
+  string text = 1;
 }
 
 // Response data

@@ -1,7 +1,7 @@
 import langextract
 from langextract.core.data import AnnotatedDocument
 import textwrap
-import util
+import extract_textual_components.util as util
 import json
 from pprint import pprint
 
@@ -68,7 +68,7 @@ class Extract_details:
     def extract(self):
         examples = [
             langextract.data.ExampleData(
-                text=EXAMPLE_TEXT,
+                text=self.EXAMPLE_TEXT,
                 extractions=[
                     langextract.data.Extraction(
                         extraction_class=self.CHARACTER_NAME,
@@ -111,16 +111,23 @@ class Extract_details:
     def ready_response(self, annotated_doc: AnnotatedDocument):
         data = {}
 
-        for extraction in annotated_doc.extractions:
-            match extraction.extraction_class:
-                case self.CHARACTER_NAME:
-                    util.get_characters(extraction, data)
-                case self.SETTING:
-                    util.get_setting(extraction, data)
-                case self.TIME:
-                    util.get_time(extraction, data)
-                case self.SUMMARY:
-                    util.get_summary(extraction, data)
+        if not annotated_doc:
+            return data
+
+        try:
+            for extraction in annotated_doc.extractions:
+                match extraction.extraction_class:
+                    case self.CHARACTER_NAME:
+                        util.get_characters(self, extraction, data)
+                    case self.SETTING:
+                        util.get_setting(self, extraction, data)
+                    case self.TIME:
+                        util.get_time(self, extraction, data)
+                    case self.SUMMARY:
+                        util.get_summary(self, extraction, data)
+        except AttributeError:
+            data = {}
+            print("extractions doesn't exist")
 
         return data
 
