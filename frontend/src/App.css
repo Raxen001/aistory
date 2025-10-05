@@ -37,7 +37,82 @@
 .card {
   padding: 2em;
 }
-
+.cardcontainer{
+  padding: 3em;
+}
+.cardParentDiv {
+  display: flex;
+  flex-direction: column; 
+  justify-content: space-evenly; 
+  min-height: 100vh; 
+}
+.cardTitle{
+  text-align: left;
+}
+.childCardComponent{
+  background-color: #353535;
+}
+.right-panel-container{
+  min-height: 100%;
+}
 .read-the-docs {
   color: #888;
+}
+#reader-container {
+  position: relative;
+  width: 100%;
+  padding: 2em;
+  height: 86%;
+  overflow: hidden;
+}
+
+#reader-container #header-bar,
+#reader-container #nav-bar,
+#reader-container #side-bar {
+  position: absolute;
+  z-index: 10;
+}
+
+#reader-container #side-bar {
+  top: 1em;
+  left: 1em;
+
+  bottom: 4.9em;
+  width: 250px;
+  height:88%; 
+  overflow-y: auto;
+  background-color: #222;
+}
+
+#reader-container #header-bar {
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 50px;
+  background-color: #333;
+}
+
+#reader-container #nav-bar {
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 50px;
+  background-color: #333;
+}
+#reader-container foliate-view {
+  width: 50%;
+  height: 96%;
+  display: block;
+}
+
+#side-bar {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 220px;
+}
+foliate-view {
+  margin-left: 325px !important; 
+  margin-top: 0px !important;  
 }
