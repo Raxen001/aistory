@@ -17,7 +17,7 @@ def get_characters(ec, extraction: Extraction, data):
         character = character_dict.setdefault(extraction.extraction_text, {})
 
     character.setdefault(ec.CHARACTER_NAME, extraction.extraction_text)
-    add_pos_data(extraction, character)
+    add_pos_data(ec, extraction, character)
 
     aliases = character.setdefault(ec.CHARACTER_ALIAS, [])
     if extraction.attributes:
@@ -29,25 +29,25 @@ def get_characters(ec, extraction: Extraction, data):
 # future parse setting and time based on the partial contexts.
 # i.e, if user changes time and setting in a single chapter multiple times. The
 # we should be able to figure it out.
-def get_setting(extraction: Extraction, data):
+def get_setting(ec, extraction: Extraction, data):
     setting = data.setdefault(ec.SETTING, {})
     setting.setdefault(ec.VAL_KEY, extraction.extraction_text)
-    add_pos_data(extraction, setting)
+    add_pos_data(ec, extraction, setting)
 
 
-def get_time(extraction: Extraction, data):
+def get_time(ec, extraction: Extraction, data):
     time = data.setdefault(ec.TIME, {})
     time.setdefault(ec.VAL_KEY, extraction.extraction_text)
-    add_pos_data(extraction, time)
+    add_pos_data(ec, extraction, time)
 
 
-def get_summary(extraction: Extraction, data):
+def get_summary(ec, extraction: Extraction, data):
     summary = data.setdefault(ec.SUMMARY, {})
     summary.setdefault(ec.VAL_KEY, extraction.extraction_text)
-    add_pos_data(extraction, summary)
+    add_pos_data(ec, extraction, summary)
 
 
-def add_pos_data(extraction: Extraction, data):
+def add_pos_data(ec, extraction: Extraction, data):
     if not extraction.char_interval:
         return
 

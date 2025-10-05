@@ -2,8 +2,6 @@ import langextract
 from langextract.core.data import AnnotatedDocument
 import textwrap
 import extract_textual_components.util as util
-import json
-from pprint import pprint
 
 
 class Extract_details:
