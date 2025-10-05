@@ -4,13 +4,14 @@ import { useRef } from "react";
 import { useEffect } from "react";
 import { openEpub } from "../../../foliate-js/reader"
 import { useState } from "react";
+import { Dropdown } from "../DropDown";
 
 
 export default function RightPanel(){
     const fileInputRef = useRef(null);
     const [epubFile , setEpubFile] = useState(null);
     const viewContainerRef = useRef(null);
-
+     const [viewInstance, setViewInstance] = useState(null);
     const handleButtonClick = () => {
         if (fileInputRef.current) {
             fileInputRef.current.click()
@@ -26,15 +27,22 @@ export default function RightPanel(){
     }
     useEffect(() => {
         if (epubFile && viewContainerRef.current) {
-            openEpub(epubFile, viewContainerRef.current).catch(console.error)
+            openEpub(epubFile, viewContainerRef.current)
+             .then((view) => setViewInstance(view))
+             .catch(console.error);
         }
     }, [epubFile])
+
+    const handleLayoutChange = (layout) => {
+        console.log(viewInstance)
+        viewInstance?.renderer.setAttribute("flow", layout);
+    };
     
 
     return(
         <>
             <div className="right-panel-container rounded-md ">
-                <Tabs defaultValue="account" className="w-[400px] p-2 bg-[#333333] w-full">
+                <Tabs defaultValue="account" className="w-[400px] p-2 flex flex-row justify-between  rounded-md bg-[#333333] w-full">
                     <input
                         type="file"
                         accept=".epub"
@@ -43,14 +51,19 @@ export default function RightPanel(){
                         style={{ display: "none" }}
                     />
 
-                    <Button size="sm" className=" cursor-pointer p-0 w-[14vh]" onClick={handleButtonClick} >
+                    <Button size="sm" className=" cursor-pointer p-[18px]" onClick={handleButtonClick} >
                         ↑ Upload epub
                     </Button>
+                    <div className="layoutDropDownContainer invisible">
+                        <Dropdown
+                            onChange={handleLayoutChange}
+                        />
+                    </div>
                 </Tabs>
                 <div
                     ref={viewContainerRef}
                     id="reader-container"
-                    className="mt-4 h-[80vh] "
+                    className="mt-8"
                     style={{ overflow: 'auto', position: 'relative' }}
                 >
                             <div id="dimming-overlay" aria-hidden="true"></div>
@@ -64,31 +77,17 @@ export default function RightPanel(){
                         </div>
                         <div id="toc-view"></div>
                     </div>
-                    <div id="header-bar" class="toolbar">
-                        <button id="side-bar-button" aria-label="Show sidebar">
-                            <svg class="icon" width="24" height="24" aria-hidden="true">
-                                <path d="M 4 6 h 16 M 4 12 h 16 M 4 18 h 16" />
-                            </svg>
-                        </button>
-                        <div id="menu-button" class="menu-container">
-                            <button aria-label="Show settings" aria-haspopup="true">
-                                <svg class="icon" width="24" height="24" aria-hidden="true">
-                                    <path d="M5 12.7a7 7 0 0 1 0-1.4l-1.8-2 2-3.5 2.7.5a7 7 0 0 1 1.2-.7L10 3h4l.9 2.6 1.2.7 2.7-.5 2 3.4-1.8 2a7 7 0 0 1 0 1.5l1.8 2-2 3.5-2.7-.5a7 7 0 0 1-1.2.7L14 21h-4l-.9-2.6a7 7 0 0 1-1.2-.7l-2.7.5-2-3.4 1.8-2Z" />
-                                    <circle cx="12" cy="12" r="3" />
-                                </svg>
-                            </button>
-                        </div>
-                    </div>
-                    <div id="nav-bar" class="toolbar">
+                    
+                    <div id="nav-bar" className="toolbar">
                         <button id="left-button" aria-label="Go left">
-                            <svg class="icon" width="24" height="24" aria-hidden="true">
+                            <svg className="icon" width="24" height="24" aria-hidden="true">
                                 <path d="M 15 6 L 9 12 L 15 18" />
                             </svg>
                         </button>
                         <input id="progress-slider" type="range" min="0" max="1" step="any" list="tick-marks"></input>
                             <datalist id="tick-marks"></datalist>
                             <button id="right-button" aria-label="Go right">
-                                <svg class="icon" width="24" height="24" aria-hidden="true">
+                                <svg className="icon" width="24" height="24" aria-hidden="true">
                                     <path d="M 9 6 L 15 12 L 9 18" />
                                 </svg>
                             </button>
