@@ -12,14 +12,10 @@ message ExtractedDataRequest {
 
 // Response data
 message ExtractedDataResponse {
-  repeated Characters characters = 1;
-  map<string, Setting> setting = 2;
-  map<string, Time> time = 3;
-  map<string, Summary> summary = 4;
-}
-
-message Characters {
-  map<string, Character> characters = 1;
+  repeated Character characters = 1;
+  Setting setting = 2;
+  Time time = 3;
+  Summary summary = 4;
 }
 
 message Character {
@@ -30,6 +26,7 @@ message Character {
 
 message Setting {
   string val = 1;
+  repeated Position pos = 2;
 }
 
 message Time {

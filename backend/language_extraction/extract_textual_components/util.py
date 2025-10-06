@@ -2,24 +2,25 @@ from langextract.core.data import Extraction
 
 
 def get_characters(ec, extraction: Extraction, data):
-    character_dict = data.setdefault(ec.CHARACTERS_OBJ, {})
+    character_arr = data.setdefault(ec.CHARACTERS_OBJ, [])
     # check if character Alias match.
     # if not then use a new character object
-    for key, val in character_dict.items():
-        if (
-            val
-            and val.get(ec.CHARACTER_ALIAS, False)
-            and extraction.extraction_text in val[ec.CHARACTER_ALIAS]
+    for character_dict in character_arr:
+        if character_dict.get(ec.CHARACTER_ALIAS, False) and (
+            extraction.extraction_text == character_dict[ec.CHARACTER_NAME]
+            or extraction.extraction_text in character_dict[ec.CHARACTER_ALIAS]
         ):
-            character = val
+            character = character_dict
+
             break
     else:
-        character = character_dict.setdefault(extraction.extraction_text, {})
+        character = {}
+        character_arr.append(character)
 
     character.setdefault(ec.CHARACTER_NAME, extraction.extraction_text)
     add_pos_data(ec, extraction, character)
-
     aliases = character.setdefault(ec.CHARACTER_ALIAS, [])
+
     if extraction.attributes:
         aliases.extend(extraction.attributes[ec.CHARACTER_ALIAS])
 
