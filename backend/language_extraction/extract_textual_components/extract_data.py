@@ -2,6 +2,9 @@ import langextract
 from langextract.core.data import AnnotatedDocument
 import textwrap
 import extract_textual_components.util as util
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 class Extract_details:
@@ -109,7 +112,9 @@ class Extract_details:
     def ready_response(self, annotated_doc: AnnotatedDocument):
         data = {}
 
-        if not annotated_doc:
+        if not annotated_doc or not isinstance(annotated_doc, AnnotatedDocument):
+            logging.error("annotated_doc is not an istance of AnnotatedDocument")
+
             return data
 
         try:

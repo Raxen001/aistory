@@ -4,6 +4,9 @@ import grpc
 from google.protobuf.json_format import ParseDict
 import lib.lang_extract_pb2 as lang_extract_pb2
 import lib.lang_extract_pb2_grpc as lang_extract_pb2_grpc
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 class LangExtractService(lang_extract_pb2_grpc.LangExtractServiceServicer):
@@ -30,5 +33,5 @@ def serve():
     )
     server.add_insecure_port("[::]:" + port)
     server.start()
-    print("GRPC SERVER STARTED")
+    logging.info(f"GRPC server started at port: {port}")
     server.wait_for_termination()
